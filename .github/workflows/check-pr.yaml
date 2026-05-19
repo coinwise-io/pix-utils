@@ -25,6 +25,13 @@ jobs:
       - name: Check types
         run: yarn build
 
+      - name: Verify dist/ is up to date with src/
+        run: |
+          if ! git diff --exit-code -- dist/; then
+            echo "::error::dist/ is out of sync with src/. Run 'yarn build' locally and commit the resulting dist/."
+            exit 1
+          fi
+
       - name: Check linting
         run: yarn lint
 
