@@ -34,11 +34,11 @@
     "build:module": "tsc -p tsconfig.module.json",
     "lint": "eslint --ignore-path .gitignore \"src/**/*.ts\"",
     "format": "prettier --ignore-path .gitignore \"src/**/*.ts\" --write",
-    "test": "vitest run",
+    "test": "node -e \"var m=+process.versions.node.split('.')[0]; if (m < 18) { console.log('Skipping tests on Node ' + process.version + ' (vitest 3 requires >=18)'); process.exit(0); }\" && vitest run",
     "coverage": "vitest run --coverage",
     "reset-hard": "git clean -dfx && git reset --hard && yarn install",
     "prepare-release": "run-s reset-hard test",
-    "prepare": "npm run build && husky install",
+    "prepare": "run-p build:* && husky install",
     "release": "semantic-release"
   },
   "dependencies": {
